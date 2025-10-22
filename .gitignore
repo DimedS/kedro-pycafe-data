@@ -12,11 +12,7 @@ conf/**/*credentials*
 
 !conf/base/credentials.yml
 
-# ignore everything in the following folders
-data/**
 
-# except their sub-folders
-!data/**/
 
 # also keep all .gitkeep files
 !.gitkeep
