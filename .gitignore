@@ -1,6 +1,8 @@
 ##########################
 # KEDRO PROJECT
 
+!conf/base/credentials.yml
+
 # ignore all local configuration
 conf/local/**
 !conf/local/.gitkeep
