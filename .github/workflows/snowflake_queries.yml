@@ -5,6 +5,9 @@ on:
     - cron: "15 7 * * *"   # every day at 07:15 UTC
   workflow_dispatch:         # allow manual trigger
 
+permissions:
+  contents: write
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
@@ -36,18 +39,13 @@ jobs:
       # 5️⃣  Commit and push updated CSV
       - name: Commit and push updated CSV
         if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git config user.name "GitHub Action"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # add updated CSV, ignoring .gitignore
+          # Force-add CSV even if ignored
           git add -f data/02_intermediate/pypi_kedro_downloads.csv
-          git commit -m "Update pypi_kedro_downloads.csv [skip ci]" || echo "No changes"
+          git commit -m "Update pypi_kedro_downloads.csv [skip ci]" || echo "No changes to commit"
 
-          # ensure remote uses your fine-grained PAT
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
-
-          # push to main branch
+          # Push with built-in GITHUB_TOKEN (now has write permission)
           git push origin HEAD:main
