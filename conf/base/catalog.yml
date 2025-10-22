@@ -1,0 +1,13 @@
+pypi_kedro_downloads:
+  type: kedro_datasets.snowflake.SnowparkTableDataset
+  table_name: "V_PYPI_KEDRO_DOWNLOADS"
+  database: "KEDRO_BI_DB"  # Snowflake database
+  schema: "PYPI"  # Schema inside the database
+  credentials: snowflake_credentials
+
+# Save results locally as CSV
+pypi_kedro_downloads_table:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/pypi_kedro_downloads.csv
+  save_args:
+    index: False
