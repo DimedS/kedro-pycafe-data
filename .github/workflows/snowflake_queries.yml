@@ -33,6 +33,7 @@ jobs:
       - name: Run Kedro pipeline
         run: kedro run --pipeline data_transfer
 
+      # 5️⃣  Commit and push updated CSV
       - name: Commit and push updated CSV
         if: success()
         env:
@@ -40,6 +41,13 @@ jobs:
         run: |
           git config user.name "GitHub Action"
           git config user.email "actions@github.com"
-          git add data/02_intermediate/pypi_kedro_downloads.csv
-          git commit -m "Update pypi_kedro_downloads.csv [skip ci]" || echo "No changes to commit"
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+
+          # add updated CSV, ignoring .gitignore
+          git add -f data/02_intermediate/pypi_kedro_downloads.csv
+          git commit -m "Update pypi_kedro_downloads.csv [skip ci]" || echo "No changes"
+
+          # ensure remote uses your fine-grained PAT
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
+
+          # push to main branch
+          git push origin HEAD:main
