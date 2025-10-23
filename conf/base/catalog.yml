@@ -11,3 +11,15 @@ pypi_kedro_downloads_table:
   filepath: data/02_intermediate/pypi_kedro_downloads.csv
   save_args:
     index: False
+
+new_kedro_users_monthly:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/new_kedro_users_monthly.csv
+  save_args:
+    index: False
+
+mau_kedro:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/mau_kedro.csv
+  save_args:
+    index: False

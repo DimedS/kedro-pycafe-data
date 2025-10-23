@@ -36,16 +36,23 @@ jobs:
       - name: Run Kedro pipeline
         run: kedro run --pipeline data_transfer
 
-      # 5️⃣  Commit and push updated CSV
-      - name: Commit and push updated CSV
+      # 2️⃣ Run new telemetry_data pipeline
+      - name: Run Kedro telemetry_data pipeline
+        run: kedro run --pipeline telemetry_data
+
+      # 3️⃣ Commit and push updated CSVs
+      - name: Commit and push updated CSVs
         if: success()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Force-add CSV even if ignored
-          git add -f data/02_intermediate/pypi_kedro_downloads.csv
-          git commit -m "Update pypi_kedro_downloads.csv [skip ci]" || echo "No changes to commit"
+          # Force-add generated CSVs even if ignored
+          git add -f data/02_intermediate/pypi_kedro_downloads.csv || true
+          git add -f data/02_intermediate/new_kedro_users_monthly.csv || true
+          git add -f data/02_intermediate/mau_kedro.csv || true
 
-          # Push with built-in GITHUB_TOKEN (now has write permission)
+          git commit -m "Update pipeline outputs [skip ci]" || echo "No changes to commit"
+
+          # Push with built-in GITHUB_TOKEN
           git push origin HEAD:main
