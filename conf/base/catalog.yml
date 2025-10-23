@@ -23,3 +23,11 @@ mau_kedro:
   filepath: data/02_intermediate/mau_kedro.csv
   save_args:
     index: False
+
+kedro_plugins_mau:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/kedro_plugins_mau.csv
+
+kedro_commands_mau:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/kedro_commands_mau.csv

@@ -95,5 +95,69 @@ def build_telemetry_data() -> pd.DataFrame:
         ORDER BY year_month
     """).to_pandas()
 
+    # --- 3️⃣ Kedro plugins MAU ---
+    plugins_mau_df = session.sql("""
+        SELECT 
+            TO_CHAR(DATE_TRUNC('month', time), 'YYYY-MM') AS year_month,
+            first_two_words,
+            COUNT(DISTINCT username) AS unique_users
+        FROM (
+            SELECT 
+                a.command,
+                SPLIT(command, ' ')[0] || ' ' || SPLIT(command, ' ')[1] AS first_two_words,
+                b.username,
+                a.time
+            FROM HEAP_FRAMEWORK_VIZ_PRODUCTION.HEAP.ANY_COMMAND_RUN a
+            JOIN temp_username_uniques b 
+                ON a.username = b.username
+            WHERE time >= '2024-10-01'
+        ) t
+        WHERE first_two_words IN (
+            'kedro mlflow',
+            'kedro docker',
+            'kedro airflow',
+            'kedro databricks',
+            'kedro azureml',
+            'kedro vertexai',
+            'kedro gql',
+            'kedro boot',
+            'kedro sagemaker',
+            'kedro coda',
+            'kedro kubeflow'
+        )
+        GROUP BY year_month, first_two_words
+        ORDER BY year_month, unique_users DESC
+    """).to_pandas()
+
+    # --- 4️⃣ Kedro core commands MAU ---
+    commands_mau_df = session.sql("""
+        SELECT 
+            TO_CHAR(DATE_TRUNC('month', time), 'YYYY-MM') AS year_month,
+            first_two_words,
+            COUNT(DISTINCT username) AS unique_users
+        FROM (
+            SELECT 
+                a.command,
+                SPLIT(command, ' ')[0] || ' ' || SPLIT(command, ' ')[1] AS first_two_words,
+                b.username,
+                a.time
+            FROM HEAP_FRAMEWORK_VIZ_PRODUCTION.HEAP.ANY_COMMAND_RUN a
+            JOIN temp_username_uniques b 
+                ON a.username = b.username
+            WHERE time >= '2024-10-01'
+        ) t
+        WHERE first_two_words IN (
+            'kedro run',
+            'kedro viz',
+            'kedro new',
+            'kedro pipeline',
+            'kedro jupyter',
+            'kedro ipython',
+            'kedro package'
+        )
+        GROUP BY year_month, first_two_words
+        ORDER BY year_month, unique_users DESC
+    """).to_pandas()
+
     session.close()
-    return new_users_df, mau_df
+    return new_users_df, mau_df, plugins_mau_df, commands_mau_df

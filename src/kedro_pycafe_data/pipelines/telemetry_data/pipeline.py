@@ -7,7 +7,12 @@ def create_pipeline(**kwargs) -> Pipeline:
             Node(
                 func=build_telemetry_data,
                 inputs=None,
-                outputs=["new_kedro_users_monthly", "mau_kedro"],
+                outputs=[
+                    "new_kedro_users_monthly",
+                    "mau_kedro",
+                    "kedro_plugins_mau",
+                    "kedro_commands_mau",
+                ],
                 name="build_telemetry_data",
             ),
         ]
