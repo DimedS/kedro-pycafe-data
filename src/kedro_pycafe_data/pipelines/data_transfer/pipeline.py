@@ -15,5 +15,11 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs="pypi_kedro_downloads_table",
                 name="fetch_and_save_snowflake_data",
             ),
+            Node(
+                func=fetch_and_save,
+                inputs="downloads_by_country",
+                outputs="downloads_by_country_table",
+                name="fetch_and_save_downloads_by_country",
+            ),
         ]
     )

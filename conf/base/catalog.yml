@@ -31,3 +31,16 @@ kedro_plugins_mau:
 kedro_commands_mau:
   type: pandas.CSVDataset
   filepath: data/02_intermediate/kedro_commands_mau.csv
+
+downloads_by_country:
+  type: kedro_datasets.snowflake.SnowparkTableDataset
+  table_name: "V_DOWNLOADS_BY_COUNTRY"
+  database: "KEDRO_BI_DB"
+  schema: "PYPI"
+  credentials: snowflake_credentials
+
+downloads_by_country_table:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/downloads_by_country.csv
+  save_args:
+    index: False
