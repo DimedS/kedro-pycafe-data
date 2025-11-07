@@ -88,11 +88,12 @@ def build_telemetry_data() -> pd.DataFrame:
     mau_df = session.sql("""
         SELECT 
             TO_CHAR(DATE_TRUNC('month', dt), 'YYYY-MM') AS year_month,
+            max_version_prefix,
             COUNT(DISTINCT username) AS mau
         FROM temp_dt_username_unique
         WHERE dt >= '2024-10-01'
-        GROUP BY year_month
-        ORDER BY year_month
+        GROUP BY year_month, max_version_prefix
+        ORDER BY year_month, max_version_prefix
     """).to_pandas()
 
     # --- 3️⃣ Kedro plugins MAU ---
