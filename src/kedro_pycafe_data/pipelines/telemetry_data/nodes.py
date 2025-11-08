@@ -65,7 +65,7 @@ def build_telemetry_data() -> pd.DataFrame:
     # --- Step 5 ---
     session.sql("""
         CREATE OR REPLACE TEMPORARY TABLE temp_dt_username_unique_first_date AS
-        SELECT username, MIN(dt) AS first_date
+        SELECT username, MIN(dt) AS first_date, MAX(max_version_prefix) as max_version_prefix
         FROM temp_dt_username_unique
         GROUP BY username
         ORDER BY first_date
@@ -73,15 +73,15 @@ def build_telemetry_data() -> pd.DataFrame:
 
     # --- Final result 1: new Kedro users ---
     new_users_df = session.sql("""
-        SELECT first_year_month, COUNT(*) AS count
+        SELECT first_year_month, max_version_prefix, COUNT(*) AS count
         FROM (
             SELECT *,
                    TO_CHAR(first_date, 'YYYY-MM') AS first_year_month
             FROM temp_dt_username_unique_first_date
         ) t
         WHERE first_year_month >= '2024-11'
-        GROUP BY 1
-        ORDER BY 1
+        GROUP BY 1, 2
+        ORDER BY 1, 2
     """).to_pandas()
 
     # --- Final result 2: monthly active users (MAU) ---
