@@ -65,7 +65,7 @@ def build_telemetry_data() -> pd.DataFrame:
     # --- Step 5 ---
     session.sql("""
         CREATE OR REPLACE TEMPORARY TABLE temp_dt_username_unique_first_date AS
-        SELECT username, MIN(dt) AS first_date, MAX(max_version_prefix) as max_version_prefix
+        SELECT username, MIN(dt) AS first_date, MIN(max_version_prefix) as max_version_prefix
         FROM temp_dt_username_unique
         GROUP BY username
         ORDER BY first_date
