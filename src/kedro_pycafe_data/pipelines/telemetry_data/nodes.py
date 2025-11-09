@@ -62,7 +62,7 @@ def build_telemetry_data() -> pd.DataFrame:
          AND b.username IS NOT NULL
     """).collect()
 
-    # --- Step 5 ---
+    # --- Step 5 --- here I took MIN(max_version_prefix) instead of MAX to get the version that was on the first date
     session.sql("""
         CREATE OR REPLACE TEMPORARY TABLE temp_dt_username_unique_first_date AS
         SELECT username, MIN(dt) AS first_date, MIN(max_version_prefix) as max_version_prefix
