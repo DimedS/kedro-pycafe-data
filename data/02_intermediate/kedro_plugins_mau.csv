@@ -57,8 +57,8 @@ YEAR_MONTH,FIRST_TWO_WORDS,UNIQUE_USERS
 2025-05,kedro mlflow,63
 2025-05,kedro docker,22
 2025-05,kedro airflow,11
-2025-05,kedro databricks,3
 2025-05,kedro gql,3
+2025-05,kedro databricks,3
 2025-05,kedro azureml,3
 2025-05,kedro vertexai,1
 2025-05,kedro kubeflow,1
@@ -113,9 +113,9 @@ YEAR_MONTH,FIRST_TWO_WORDS,UNIQUE_USERS
 2025-11,kedro mlflow,10
 2025-11,kedro docker,6
 2025-11,kedro airflow,4
+2025-11,kedro azureml,3
 2025-11,kedro databricks,3
-2025-11,kedro azureml,2
+2025-11,kedro boot,1
 2025-11,kedro gql,1
 2025-11,kedro sagemaker,1
-2025-11,kedro boot,1
 2025-11,kedro coda,1
