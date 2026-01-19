@@ -104,10 +104,10 @@ YEAR_MONTH,FIRST_TWO_WORDS,UNIQUE_USERS
 2025-12,kedro ipython,69
 2025-12,kedro jupyter,59
 2025-12,kedro package,31
-2026-01,kedro run,430
-2026-01,kedro viz,116
-2026-01,kedro pipeline,87
-2026-01,kedro new,85
+2026-01,kedro run,436
+2026-01,kedro viz,117
+2026-01,kedro new,89
+2026-01,kedro pipeline,88
 2026-01,kedro jupyter,37
 2026-01,kedro ipython,25
 2026-01,kedro package,20
